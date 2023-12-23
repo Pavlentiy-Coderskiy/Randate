@@ -1,0 +1,82 @@
+
+.openB {
+  -fx-background-color: #6186b8;
+  -fx-border-radius: 4px;
+  -fx-border-style: none;
+  -fx-box-sizing: border-box;
+  -fx-color: #fff;
+  -fx-cursor: pointer;
+  -fx-display: inline-block;
+  -fx-line-height: 1.5;
+  -fx-margin: 0;
+  -fx-outline: none;
+  -fx-overflow: hidden;
+  -fx-position: relative;
+  -fx-user-select: none;
+  -fx--webkit-user-select: none;
+  -fx-touch-action: manipulation;
+}
+
+.modeB{
+  -fx-background-color: #5577a7;
+  -fx-border-radius: 4px;
+  -fx-border-style: none;
+  -fx-box-sizing: border-box;
+  -fx-color: #fff;
+  -fx-cursor: pointer;
+  -fx-display: inline-block;
+  -fx-line-height: 1.5;
+  -fx-margin: 0;
+  -fx-outline: none;
+  -fx-overflow: hidden;
+  -fx-position: relative;
+  -fx-user-select: none;
+  -fx--webkit-user-select: none;
+  -fx-touch-action: manipulation;
+}
+
+.openB:hover,
+.openB:focus {
+  -fx-opacity: .75;
+}
+
+.checkB{
+  -fx-background-color:#303030;
+}
+
+.checkB:hover,.checkB:focus{
+  -fx-opacity: .75;
+}
+.anchorPane {
+	-fx-background-color:#4d6a96;
+  -fx-background-radius: 0px, 0px, 24px, 24px;
+}
+
+.backAnchorPane{
+  -fx-background-color:#345a8f;
+  -fx-background-radius: 24px;
+}
+
+.separator{
+	-fx-background-color: #3f5779;
+	-fx-border-color: #3f5779;
+	-fx-border-radius: 12px;
+
+}
+
+.form {
+  -fx-display: grid;
+  -fx-place-content: center;
+}
+
+.radioB{
+
+
+}
+
+.radioB:selected .radio .dot{
+	-fx-background-color: #569977;
+    -fx-background-insets: 0;
+
+}
+

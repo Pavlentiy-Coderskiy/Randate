@@ -1,12 +1,22 @@
+.closeB {
+  -fx-background-color: #fa4b4b;
+}
 
+.closeB:hover,.closeB:focus{
+  -fx-opacity: .90;
+}
+
+.minB {
+  -fx-background-color: #fca82a;  
+}
+
+.minB:hover,.minB:focus{
+  -fx-opacity: .90;
+}
 .openB {
-  -fx-background-color: #6186b8;
+  -fx-background-color: #3f3f3f;
   -fx-border-radius: 4px;
   -fx-border-style: none;
-  -fx-box-sizing: border-box;
-  -fx-color: #fff;
-  -fx-cursor: pointer;
-  -fx-display: inline-block;
   -fx-line-height: 1.5;
   -fx-margin: 0;
   -fx-outline: none;
@@ -17,8 +27,13 @@
   -fx-touch-action: manipulation;
 }
 
+.topPane{
+  -fx-background-color: #3d3d3d;
+  -fx-background-radius: 25px 25px 0px 0px;
+}
+
 .modeB{
-  -fx-background-color: #5577a7;
+  -fx-background-color: #3d3d3d;
   -fx-border-radius: 4px;
   -fx-border-style: none;
   -fx-box-sizing: border-box;
@@ -37,23 +52,24 @@
 
 .openB:hover,
 .openB:focus {
-  -fx-opacity: .75;
+  -fx-opacity: .90;
 }
 
 .checkB{
-  -fx-background-color:#303030;
+  -fx-background-color:#333333;
 }
 
-.checkB:hover,.checkB:focus{
-  -fx-opacity: .75;
+.checkB:hover,
+.checkB:focus{
+  -fx-opacity: .90;
 }
 .anchorPane {
-	-fx-background-color:#4d6a96;
-  -fx-background-radius: 0px, 0px, 24px, 24px;
+	-fx-background-color:#4e4e4e;
+  -fx-background-radius: 26px 26px 5px 5px;
 }
 
 .backAnchorPane{
-  -fx-background-color:#345a8f;
+  -fx-background-color:#5e5e5e;
   -fx-background-radius: 24px;
 }
 
@@ -69,14 +85,21 @@
   -fx-place-content: center;
 }
 
-.radioB{
+.radioB .radio{
+  -fx-background-color: #d1d1d1;
+  -fx-background-radius: 50px;
 
+  -fx-border-radius: 50px;
+  -fx-border-insets: -3;
+  -fx-border-width: 3px;
+  -fx-border-color: #575757;
+  
 
 }
-
 .radioB:selected .radio .dot{
 	-fx-background-color: #569977;
-    -fx-background-insets: 0;
-
+  -fx-background-insets: 0;
 }
+
+
 

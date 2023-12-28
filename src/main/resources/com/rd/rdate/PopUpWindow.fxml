@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="216.0" prefWidth="269.0" styleClass="borderPane" stylesheets="@PopUpStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Ubuntu Medium" size="17.0" />
+         </font>
+      </Text>
+   </top>
+   <center>
+      <ImageView fitHeight="162.0" fitWidth="163.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@../../../../../../../../Users/phuha/OneDrive/Рабочий%20стол/icons/Alert.png" />
+         </image>
+      </ImageView>
+   </center>
+</BorderPane>

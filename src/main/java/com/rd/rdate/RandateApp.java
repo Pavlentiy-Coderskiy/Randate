@@ -10,6 +10,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class RandateApp extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(RanDateController.class.getResource("RUI.fxml"));

@@ -1,4 +1,9 @@
-.borderPane{
-	-fx-background-color: #6394cc;
-	-fx-background-radius: 8px;
+.anchorPane{
+	-fx-background-color: #333333;
+	-fx-background-radius: 24px 24px 2px 2px;
+}
+
+.okButton{
+	-fx-background-color: #2872d3;
+	-fx-background-radius: 6px ;
 }

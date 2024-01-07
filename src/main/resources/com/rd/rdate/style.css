@@ -1,5 +1,6 @@
 .closeB {
   -fx-background-color: #fa4b4b;
+  -fx-background-radius: 6px 2px 6px 2px; 
 }
 
 .closeB:hover,.closeB:focus{
@@ -7,7 +8,8 @@
 }
 
 .minB {
-  -fx-background-color: #fca82a;  
+  -fx-background-color: #fca82a;
+  -fx-background-radius: 6px 2px 6px 2px;  
 }
 
 .minB:hover,.minB:focus{
@@ -73,12 +75,6 @@
   -fx-background-radius: 24px;
 }
 
-.separator{
-	-fx-background-color: #3f5779;
-	-fx-border-color: #3f5779;
-	-fx-border-radius: 12px;
-
-}
 
 .form {
   -fx-display: grid;

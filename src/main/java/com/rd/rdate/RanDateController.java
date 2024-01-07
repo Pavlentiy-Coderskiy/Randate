@@ -9,11 +9,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -26,10 +29,9 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 /*TO-DO--------------------------------- 
      --- Прикрутить еще пару-тройку режимов
-     --- Заполнить отстаток radioText'ов 
-     --- Перекраска кнопки Check /
-     --- Баг с перемещением файла из изночальной деректории
+     --- Перекраска кнопки Check 
      --- Баг с одним и тем же пунктом в radioLabel'e
+     --- Сделать PopUp более симпотным
 ----------------------------------------*/
 public class RanDateController {
 
@@ -44,15 +46,17 @@ public class RanDateController {
 
     @FXML
     private Pane topPane;
+
     private double xOffset = 0;
     private double yOffset = 0;
     private File file;
     private Stage stage;
-    private int correctAnswerCount = 0;
     private RadioButton rightButton;
     private Map<String, String> dateMap = new HashMap<String, String>();
     private List<String> eventArray = new ArrayList<>();
     private List<String> dateArray = new ArrayList<>();
+    private int correctAnswerCount = eventArray.size();
+    private int numberOfChecks = 0;
 
     @FXML
     protected void closeWindow(ActionEvent event) {
@@ -67,22 +71,22 @@ public class RanDateController {
     }
 
     @FXML
-    protected void handleClickAction(MouseEvent event) {
+    protected void handleMovementAction(MouseEvent event) {
         Stage stage = (Stage) topPane.getScene().getWindow();
-        xOffset = stage.getX() - event.getSceneX();
-        yOffset = stage.getY() - event.getSceneY();
+        stage.setX(event.getScreenX() - xOffset);
+        stage.setY(event.getScreenY() - yOffset);
     }
 
     @FXML
-    protected void handleMovementAction(MouseEvent event) {
-        Stage stage = (Stage) topPane.getScene().getWindow();
-        stage.setX(event.getSceneX() + xOffset);
-        stage.setY(event.getSceneY() + yOffset);
-
+    protected void handlePressedAction(MouseEvent event) {
+        xOffset = event.getX();
+        yOffset = event.getY();
     }
 
     @FXML
     protected void openFile(ActionEvent event) {
+        clearAll();
+        dateMap.clear();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select a file with dates");
         fileChooser.getExtensionFilters().add(new ExtensionFilter("*.txt files",
@@ -91,6 +95,8 @@ public class RanDateController {
         // file = new File("C:\\Users\\phuha\\OneDrive\\Рабочий стол\\History
         // datetest.txt");
         readFile();
+        correctAnswerCount = dateMap.keySet().size();
+        correctAnswerCountText.setText("");
     }
 
     protected void readFile() {
@@ -100,7 +106,9 @@ public class RanDateController {
                 String line = reader.readLine();
                 while (line != null) {
                     String[] splitedString = line.split("--");
-                    dateMap.put(splitedString[0], splitedString[1]);
+                    if (splitedString.length == 2) {
+                        dateMap.put(splitedString[0], splitedString[1]);
+                    }
                     line = reader.readLine();
                 }
                 eventArray.addAll(dateMap.values());
@@ -115,22 +123,60 @@ public class RanDateController {
 
     @FXML
     protected void checkAnswer(ActionEvent event) throws InterruptedException {
-        if (file != null) {
+        if (file != null && rightButton != null) {
             if (rightButton.isSelected()) {
                 Thread.sleep(250);
                 isCorrectText.setFill(Color.GREEN);
-                correctAnswerCount += 1;
-                correctAnswerCountText.setText(correctAnswerCount + "\\20");
+                correctAnswerCountText.setText(correctAnswerCount + "\\" + dateMap.keySet().size());
             } else {
                 Thread.sleep(250);
                 isCorrectText.setFill(Color.RED);
                 correctAnswerCount -= 1;
-                correctAnswerCountText.setText(correctAnswerCount + "\\20");
+                correctAnswerCountText.setText(correctAnswerCount + "\\" + dateMap.keySet().size());
             }
+            numberOfChecks++;
             readFile();
             rightButton.requestFocus();
+            if (numberOfChecks == dateMap.keySet().size()) {
+                userScore();
+            }
         }
+    }
 
+    protected void userScore() {
+        int procentOfCorrectAnswer = (correctAnswerCount * 100) / dateMap.keySet().size();
+        if (procentOfCorrectAnswer == 100)
+            conformationPopup("Count assessment", procentOfCorrectAnswer + "% Correct answers", "Your assessment: 5");
+        else if (procentOfCorrectAnswer >= 95)
+            conformationPopup("Count assessment", procentOfCorrectAnswer + "% Correct answers", "Your assessment: 5-");
+        else if (procentOfCorrectAnswer >= 80)
+            conformationPopup("Count assessment", procentOfCorrectAnswer + "% Correct answers", "Your assessment: 4");
+        else if (procentOfCorrectAnswer >= 75)
+            conformationPopup("Count assessment", procentOfCorrectAnswer + "% Correct answers", "Your assessment: 4-");
+        else if (procentOfCorrectAnswer >= 55)
+            conformationPopup("Count assessment", procentOfCorrectAnswer + "% Correct answers", "Your assessment: 3");
+        else if (procentOfCorrectAnswer >= 53)
+            conformationPopup("Count assessment", procentOfCorrectAnswer + "% Correct answers", "Your assessment: 3-");
+        else if (procentOfCorrectAnswer <= 55)
+            conformationPopup("Count assessment", procentOfCorrectAnswer + "% Correct answers", "Your assessment: 2");
+        else if (procentOfCorrectAnswer == 0) {
+            conformationPopup("Count assessment", procentOfCorrectAnswer + "% Correct answers",
+                    "Your assessment: Dima Ignashev");
+        }
+        clearAll();
+        file = null;
+        numberOfChecks = 0;
+        correctAnswerCount = dateMap.keySet().size();
+        correctAnswerCountText.setText("");
+    }
+
+    protected void clearAll() {
+        radioText1.setText("Text");
+        radioText2.setText("Text");
+        radioText3.setText("Text");
+        radioText4.setText("Text");
+        dateLabel.setText("Date:");
+        isCorrectText.setFill(Color.WHITE);
     }
 
     protected void makeTheQuestion() {
@@ -157,13 +203,26 @@ public class RanDateController {
             dateArray.clear();
             eventArray.clear();
 
-        } catch (IllegalArgumentException e) {
-            errorPopup(e);
+        } catch (Exception e) {
+            errorPopup(e, "File is not Found of file cannot be processed. Please, choose the other file.");
         }
     }
 
-    protected void errorPopup(Exception e) { // TODO Error Popup
-        System.out.println(e.getClass().getSimpleName());
+    protected void errorPopup(Exception exception, String instruction) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Error: " + exception.getClass().getSimpleName() + "!");
+        alert.setHeaderText(exception.getClass().getSimpleName());
+        alert.setContentText(instruction);
+        alert.show();
+    }
+
+    protected void conformationPopup(String title, String content, String header) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
+
     }
 
 }

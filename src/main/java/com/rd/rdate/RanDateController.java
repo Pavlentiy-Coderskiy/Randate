@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +29,9 @@ import javafx.stage.FileChooser.ExtensionFilter;
 /*TO-DO--------------------------------- 
      --- Прикрутить еще пару-тройку режимов
      --- Перекраска кнопки Check 
-     --- Баг с одним и тем же пунктом в radioLabel'e
      --- Сделать PopUp более симпотным
      --- Сохранение шрифтов
+     --- isCorrect лампочка не меняет цвет
 ----------------------------------------*/
 public class RanDateController {
 
@@ -50,8 +51,8 @@ public class RanDateController {
     private double yOffset = 0;
     private File file;
     private Stage stage;
-    private Map<String, String> dataMap = new HashMap<String, String>();
-    private List<String> eventArray = new ArrayList<>();
+    private Map<String, ArrayList<String>> dataMap = new HashMap<String, ArrayList<String>>();
+    private List<ArrayList<String>> eventArray = new ArrayList<>();
     private List<String> dateArray = new ArrayList<>();
     private int correctAnswerCount = eventArray.size();
     private int numberOfChecks = 0;
@@ -104,12 +105,22 @@ public class RanDateController {
                 String line = reader.readLine();
                 while (line != null) {
                     String[] splitedString = line.split("--");
-                    // !FIXIT
-                    if (splitedString.length == 2)
-                        dataMap.put(splitedString[0] += " ", splitedString[1]);
+                    if (splitedString.length == 2) {
+                        ArrayList<String> valuePart = new ArrayList<>();
+                        if (dataMap.containsKey(splitedString[0])
+                                && !dataMap.get(splitedString[0]).contains(splitedString[1])) {
+                            dataMap.get(splitedString[0]).add(splitedString[1]);
+                        } else {
+                            valuePart.add(splitedString[1]);
+                            dataMap.put(splitedString[0], valuePart);
+                        }
+
+                    }
                     line = reader.readLine();
                 }
                 eventArray.addAll(dataMap.values());
+                dataMap.forEach((key, value) -> System.out.println(key + " " + value.size()));
+                System.out.println("________________________________");
                 dateArray.addAll(dataMap.keySet());
                 reader.close();
             } catch (IOException e) {
@@ -190,12 +201,12 @@ public class RanDateController {
             int randomElement = rand.nextInt(radioButtonsArray.size());
             rightButton = radioButtonsArray.get(randomElement);
             Text rightAnswerText = radioTextArray.get(randomElement);
-            rightAnswerText.setText(dataMap.get(date));
+            rightAnswerText.setText(dataMap.get(date).get(rand.nextInt(dataMap.get(date).size())));
             eventArray.remove(dataMap.get(date));
             radioTextArray.remove(rightAnswerText);
             for (Text radioText : radioTextArray) {
-                String randomEvent = eventArray.get(rand.nextInt(eventArray.size()));
-                radioText.setText(randomEvent);
+                ArrayList<String> randomEvent = eventArray.get(rand.nextInt(eventArray.size()));
+                radioText.setText(randomEvent.get(rand.nextInt(randomEvent.size())));
                 eventArray.remove(randomEvent);
             }
 
